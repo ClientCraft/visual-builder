@@ -144,7 +144,7 @@ The Visual Builder works fully without Client Craft. These features are shown as
 
 ## What it doesn't do
 
-- It doesn't change your document types from the backoffice. Schema changes come only from your code.
+- It doesn't change your document types. Your schema stays yours, in Umbraco's own Settings.
 - It doesn't save or publish on its own. Umbraco's Save and Publish are the only way changes leave the editor.
 - It doesn't replace Umbraco. Every page can still be edited in Umbraco's own Content view.
 
