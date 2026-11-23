@@ -1,0 +1,44 @@
+name: Bug report
+description: Something in the Visual Builder doesn't work as expected.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead? Screenshots help a lot.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open a page with ...
+        2. Select ...
+        3. ...
+  - type: input
+    id: package
+    attributes:
+      label: Visual Builder version
+      placeholder: 0.1.0-beta.1
+    validations:
+      required: true
+  - type: input
+    id: umbraco
+    attributes:
+      label: Umbraco version
+      placeholder: 17.8.1
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Chrome 131 on Windows
+  - type: textarea
+    id: console
+    attributes:
+      label: Browser console or server log (optional)
+      description: Paste any errors. Remove passwords, keys and personal data first.
+      render: text
