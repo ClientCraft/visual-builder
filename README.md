@@ -171,8 +171,20 @@ One wrapper applies the block's styles, anchor id and custom classes, so your vi
 </ccvb-block>
 ```
 
-Already have an outer element? Put `ccvb-style="Model"` on it instead. Add `<ccvb-assets />` once in your layout's
-`<head>`. Blocks without styles render a plain element, so the wrapper is safe everywhere.
+Already have an outer element? Put `ccvb-style="Model"` on it instead. Blocks without styles render a plain element, so
+the wrapper is safe everywhere.
+
+### 4. Add one line to your layout
+
+Anywhere inside your layout's `<head>`:
+
+```cshtml
+@await Html.VisualBuilder().RenderAssets()
+```
+
+It writes the page's Visual Builder styles and scripts and your site's custom CSS and JavaScript from the design
+library. Pages without Visual Builder blocks get nothing. With the **ClientCraft** package you don't add it:
+`@await Html.ClientCraft().RenderAssets()` already includes it.
 
 ---
 
