@@ -45,8 +45,7 @@ one click away in the block toolbar's **Settings** menu.
 
 The Visual Builder reads your block data and matches each property to the element that shows it on the page, with no
 markup changes needed. Select a block and hover: each field is outlined with its name. Double-click one to type, or to
-jump straight to it in the drawer when it's rich text or media. Settings that only change a class can be pinned to an
-element with one attribute: `data-property="alias"`.
+jump straight to it in the drawer when it's rich text or media.
 
 ![Fields mapped to the page elements](https://raw.githubusercontent.com/ClientCraft/visual-builder/main/media/auto-map.gif)
 
@@ -103,29 +102,15 @@ and the library won't publish a deletion that pages still depend on.
 
 ---
 
-## Easy to extend
-
-The Visual Builder works with the Block Grid and Block List types you already have. Open any page with a template and
-it just works. Everything else is opt-in, in your code, and additive (content is never touched):
-
-| Opt-in | Editors get | It adds |
-|---|---|---|
-| `.Styles(...)` | The Style tab with design-library values, per screen size | A "Visual styles" field on each block's settings |
-| `.CollectionBlocks(...)` | A **Collection** block that repeats a template for every record of a data source, and a **Text** block | Two block types in the grids you list |
-| `data-property="alias"` | A click target for settings that only change classes | Nothing: it's one HTML attribute |
-| Your own data sources | Collection blocks fed by your own services | One class implementing `IVisualDataProvider` |
-
 ## Install
 
 **Requirements:** .NET 10 and Umbraco 17.7.1 or later (below 18).
-
-### 1. Add the package
 
 ```bash
 dotnet add package ClientCraft.VisualBuilder.Umbraco --prerelease
 ```
 
-Installing never takes over editing on its own. Switch the Visual Builder on in `appsettings.json`:
+Switch it on in `appsettings.json`:
 
 ```json
 {
@@ -135,56 +120,14 @@ Installing never takes over editing on its own. Switch the Visual Builder on in 
 }
 ```
 
-Run the site and open any page in the backoffice: the Visual Builder opens instead of the Content view.
-
-### 2. Turn on styles (optional, recommended)
-
-Add a composer to any project the site references:
-
-```csharp
-using ClientCraft.VisualBuilder.Umbraco.Schema;
-using Umbraco.Cms.Core.Composing;
-using Umbraco.Cms.Core.DependencyInjection;
-
-public sealed class VisualBuilderSetup : IComposer
-{
-    public void Compose(IUmbracoBuilder builder) => builder.AddVisualBuilderSite(site => site
-        .Styles("Page Grid")             // your Block Grid data types, by name or key
-        .CollectionBlocks("Page Grid")); // optional: Collection and Text blocks in these grids
-}
-```
-
-On the next start the site adds only what is missing, then never again. With uSync, the new schema is exported like any
-other change and reaches your other environments through your normal deployment.
-
-### 3. Wrap your block views
-
-One wrapper applies the block's styles, anchor id and custom classes, so your views never implement margins or padding:
-
-```cshtml
-@addTagHelper *, ClientCraft.VisualBuilder.Umbraco
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem<MyBlock>>
-
-<ccvb-block block="Model" tag="section">
-    <h2>@Model.Content.Title</h2>
-    @Model.Content.Text
-</ccvb-block>
-```
-
-Already have an outer element? Put `ccvb-style="Model"` on it instead. Blocks without styles render a plain element, so
-the wrapper is safe everywhere.
-
-### 4. Add one line to your layout
-
-Anywhere inside your layout's `<head>`:
+Add one line inside your layout's `<head>`:
 
 ```cshtml
 @await Html.VisualBuilder().RenderAssets()
 ```
 
-It writes the page's Visual Builder styles and scripts and your site's custom CSS and JavaScript from the design
-library. Pages without Visual Builder blocks get nothing. With the **ClientCraft** package you don't add it:
-`@await Html.ClientCraft().RenderAssets()` already includes it.
+Run the site and open any page in the backoffice: the Visual Builder opens instead of the Content view. It works with
+the Block Grid and Block List blocks you already have.
 
 ---
 
